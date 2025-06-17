@@ -156,7 +156,7 @@ class PDF(nn.Module):
             sar_drop_mask = self.cluster_drop(sar_decoder_output_cp, rho_sar.squeeze(1))
             opt_drop_mask = self.cluster_drop(opt_decoder_output_cp, rho_opt.squeeze(1))
 
-            loss1 = self.ce_loss(fusion_masks, label) + self.ce_loss(torch.mul(sar_masks, sar_drop_mask.unsqueeze(1)), label) + self.ce_loss(torch.mul(opt_masks, opt_drop_mask.unsqueeze(1)), label)
+            loss1 = self.ce_loss(torch.mul(sar_masks, sar_drop_mask.unsqueeze(1)), label) + self.ce_loss(torch.mul(opt_masks, opt_drop_mask.unsqueeze(1)), label)
             loss2 = self.mae_loss(sar_tcp.squeeze(1), score_sar.detach()) + self.mae_loss(opt_tcp.squeeze(1), score_opt.detach())
 
             return fusion_masks, loss1, loss2
